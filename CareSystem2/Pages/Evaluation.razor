@@ -1,0 +1,120 @@
+﻿@page "/evaluation"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+
+<div class="evaluation-page">
+    <h1>衛教評值</h1>
+    @foreach (var topic in Topics)
+    {
+        <button class="button-margin" @onclick="() => ToggleContent(topic.Key)">@topic.Value</button>
+    }
+
+    <div id="evaluationContent" style="margin-top: 20px;">
+        @if (!string.IsNullOrEmpty(SectionTitle))
+        {
+            <h2>@SectionTitle</h2>
+            <table class="evaluation-table larger-text">
+                <thead>
+                    <tr>
+                        <th>問題</th>
+                        <th>瞭解</th>
+                        <th>瞭解一半</th>
+                        <th>完全不瞭解</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var question in Questions)
+                    {
+                        <tr>
+                            <td style="padding-right: 40px; padding-bottom: 10px;">@question</td>
+                            <td style="padding-bottom: 10px;"><input type="radio" name="@GetRadioName(question, "understand")" value="understand" /></td>
+                            <td style="padding-bottom: 10px;"><input type="radio" name="@GetRadioName(question, "partialUnderstand")" value="partialUnderstand" /></td>
+                            <td style="padding-bottom: 10px;"><input type="radio" name="@GetRadioName(question, "notUnderstand")" value="notUnderstand" /></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <button @onclick="SaveEvaluation" style="margin-top: 20px;">儲存</button>
+        }
+    </div>
+</div>
+
+
+
+
+@code {
+    @inject IJSRuntime JSRuntime
+    private string SectionTitle = "";
+    private List<string> Questions = new List<string>();
+    private string currentSection = "";
+    private Dictionary<string, Dictionary<string, string>> selectionState = new Dictionary<string, Dictionary<string, string>>();
+
+
+    private Dictionary<string, string> Topics = new Dictionary<string, string>
+{
+
+        { "hypertension", "高血壓" },
+        { "diabetes", "糖尿病" },
+        { "fallPrevention", "預防跌倒" }
+    };
+
+
+
+    private void ToggleContent(string section)
+    {
+        SectionTitle = GetSectionTitle(section);
+        Questions = GetQuestions(section);
+        ShowContent();
+    }
+
+    private string GetSectionTitle(string section)
+    {
+        return Topics.ContainsKey(section) ? Topics[section] + "問題" : "";
+    }
+
+    private List<string> GetQuestions(string section)
+    {
+        return section switch
+        {
+            "hypertension" => new List<string>
+{
+                "是否知道每日需規律量測血壓及服用藥物",
+                "是否知道血壓應該維持在何範圍",
+                "說出三種生活型態調適方法"
+            },
+            "diabetes" => new List<string>
+{
+                "是否知道每日需規律服用藥物、自我監測血糖、控制飲食及運動",
+                "是否知道糖尿病主要症狀",
+                "說出三種生活型態調適方法"
+            },
+            "fallPrevention" => new List<string>
+{
+                "說出三項在家中預防跌倒之措施",
+                "查看個案使用輔具之方式是否正確",
+                "說出一項發生跌倒時處理方式"
+            },
+            _ => new List<string>()
+        };
+    }
+
+    private string GetRadioName(string question, string level)
+    {
+        return $"{question}_{level}".Replace(" ", "_");
+    }
+
+
+
+    private bool IsContentVisible = false;
+
+    private async Task ShowContent()
+    {
+        IsContentVisible = true;
+        await JSRuntime.InvokeVoidAsync("toggleContent", IsContentVisible);
+    }
+
+    private async Task SaveEvaluation()
+    {
+        Console.WriteLine("已保存");
+    }
+}

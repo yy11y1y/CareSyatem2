@@ -1,0 +1,103 @@
+﻿@page "/"
+@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+
+<form onsubmit="HandleSubmit">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-4 login-box">
+                <h3 class="text-center">Login</h3>
+                <EditForm Model="@loginModel" OnValidSubmit="Login">
+                    <DataAnnotationsValidator />
+                    <ValidationSummary />
+
+                    <div class="form-group">
+                        <label for="userId">編號：</label>
+                        <InputText id="userId" @bind-Value="@loginModel.UserId" class="form-control" />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">密碼：</label>
+                        <InputText id="password" type="password" @bind-Value="@loginModel.Password" class="form-control" />
+                    </div>
+                    <br />
+                    @if (loginError)
+                    {
+                        <center><div class="error-message">帳號或密碼錯誤！</div></center>
+                    }
+                    <br />
+                    <center><button class="btn btn-primary btn-lg btn-block" @onclick="Login">登入</button></center>
+
+                </EditForm>
+            </div>
+        </div>
+    </div>
+</form>
+
+<style>
+    .login-box {
+        background-color: #f0f0f0; /* 淺灰色 */
+        padding: 20px;
+        border-radius: 8px; /* 可以加入邊框半徑，使框框的邊角更圓滑 */
+        margin-top: 50px;
+    }
+
+    .error-message {
+        color: #FF2D2D;
+        margin-top: 10px; /* 距離上方的間距 */
+    }
+
+    .custom-btn {
+        background-color: #ff6347; /* 自定義的顏色，這裡使用橙紅色 */
+        color: #ffffff; /* 文字顏色，這裡使用白色 */
+        /* 其他樣式設定 */
+    }
+</style>
+
+@code {
+    private bool HandleSubmit()
+    {
+        // 防止表單的預設提交行為
+        return false;
+    }
+    private List<User> users = new List<User>
+{
+        new User { UserId = "409492422", Password = "2422" },
+        new User { UserId = "409492288", Password = "2288" },
+        new User { UserId = "409492147", Password = "2147" },
+        new User { UserId = "409491337", Password = "1337" },
+        new User { UserId = "409492642", Password = "2642" },
+        new User { UserId = "410570138", Password = "0138" },
+        new User { UserId = "410570140", Password = "0140" },
+        new User { UserId = "410570188", Password = "0188" },
+        new User { UserId = "410570243", Password = "0243" }
+    };
+
+    private LoginModel loginModel = new LoginModel();
+    private bool loginError = false;
+    private void Login()
+    {
+        var user = users.FirstOrDefault(u => u.UserId == loginModel.UserId && u.Password == loginModel.Password);
+
+        if (user != null)
+        {
+            loginError = false;
+            NavigationManager.NavigateTo("/home");
+        }
+        else
+        {
+            loginError = true;
+        }
+    }
+
+    private class LoginModel
+    {
+        public string UserId { get; set; }
+        public string Password { get; set; }
+    }
+    private class User
+    {
+        public string UserId { get; set; }
+        public string Password { get; set; }
+    }
+}

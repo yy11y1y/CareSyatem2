@@ -1,0 +1,263 @@
+﻿@page "/record"
+
+<h1>檢查紀錄</h1>
+紀錄人員：
+
+<table>
+    <tr>
+        <td style="width: 15%;"><label>姓名：</label></td>
+        <td style="width: 85%;"><input type="text" @bind="name" style="width: 70px;" /></td>
+    </tr>
+    <tr>
+        <td style="width: 15%;"><label>病例號：</label></td>
+        <td style="width: 85%;"><input type="text" @bind="patientID" style="width: 70px;" /></td>
+    </tr>
+    <tr>
+        <td style="width: 15%;"><label>日期：</label></td>
+        <td style="width: 85%;"><input type="date" @bind="selectedDate" @onfocus="ClearDate" min="2023-10-01" /></td>
+    </tr>
+    <tr>
+        <td style="width: 15%;"><label>體重(kg):</label></td>
+        <td style="width: 85%;"><input type="text" @bind="weight" style="width: 70px;" /> kg</td>
+    </tr>
+    <tr>
+        <td style="width: 15%;"><label>身高(cm):</label></td>
+        <td style="width: 85%;"><input type="text" @bind="height" style="width: 70px;" /> cm</td>
+    </tr>
+    <tr>
+        <td style="width: 15%;"><label>BMI：</label></td>
+        <td style="width: 85%;"><span>@CalculateBMI()</span></td>
+    </tr>
+    <tr>
+        <td style="width: 15%;"><label>血壓 (mmHg)：</label></td>
+        <td style="width: 85%;">
+            <input type="text" @bind="bloodPressure1" pattern="\d{3}/\d{3}" placeholder="_____" oninput="CheckBloodPressure1" style="width: 45px; color:@GetColorForBloodPressure();" /> /
+            <input type="text" @bind="bloodPressure2" pattern="\d{3}/\d{3}" placeholder="_____" oninput="CheckBloodPressure2" style="width: 45px; color:@GetColorForBloodPressure();" /> mmHg
+            <span style="margin-left: 10px; font-size: 12px; color: gray;">@currentTime.ToString("HH:mm")</span>
+        </td>
+    </tr>
+
+
+    <tr>
+        <td style="width: 15%;"><label>脈搏：</label></td>
+        <td style="width: 85%;"><input type="text" @bind="pulse" oninput="CheckPluse" style="width: 70px; color:@GetColorForPulse();" /> 次/分</td>
+    </tr>
+    <tr>
+        <td style="width: 15%;"><label>體溫：</label></td>
+        <td style="width: 85%;"><input type="text" @bind="temperature" oninput="CheckTemperature" style="width: 70px; color:@GetColorForTemperature();" /> °C</td>
+    </tr>
+    <tr>
+        <td style="width: 15%;">
+            <label>血糖：</label>
+            <select @bind="bloodsugarTiming">
+                <option value="fasting">空腹</option>
+                <option value="postMeal">飯後</option>
+            </select>
+        </td>
+        <td style="width: 85%;">
+            <input type="text" @bind="bloodsugar" oninput="Checkbloodsugar" style="width: 70px; @GetColorForBloodSugar()" /> mg/dL
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 15%;"><label>血氧：</label></td>
+        <td style="width: 85%;"><input type="text" @bind="bloodoxygen" style="width: 70px;  " /> %</td>
+    </tr>
+</table>
+<br />
+<center>
+    <button @onclick="GoToOtherPage">上一步</button>
+    <button @onclick="GoToHomePage">Save</button>
+</center>
+
+
+
+
+@code {
+    private DateTime currentTime = DateTime.Now;
+
+
+    @inject IJSRuntime JSRuntime
+
+
+    private void UpdateWeight(double? newWeight)
+    {
+        weight = newWeight;
+    }
+
+    private void UpdateHeight(double? newHeight)
+    {
+        height = newHeight;
+    }
+
+
+    @inject NavigationManager NavigationManager
+    private void GoToOtherPage()
+    {
+        // 使用 NavigationManager 實現導航
+        NavigationManager.NavigateTo("/list");
+    }
+
+    private DateTime? selectedDate;
+    private void ClearDate()
+    {
+        if (selectedDate == DateTime.MinValue)
+        {
+            selectedDate = null;
+        }
+
+    }
+    private string? name = null;
+    private string? patientID = null;
+    private double? weight = null;
+    private double? height = null;
+
+    private string CalculateBMI()
+    {
+        if (weight != null && height != null && height != 0)
+        {
+            double bmi = (double)weight / Math.Pow((double)height / 100, 2);
+            return bmi.ToString("F2");
+        }
+        else
+        {
+            return ""; // 或其他提示信息，表示需要輸入有效的體重和身高
+        }
+    }
+
+    private int? bloodPressure1 = null;
+    private int? bloodPressure2 = null;
+    private void CheckBloodPressure1(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value.ToString(), out int bloodpressure1Value))
+        {
+            bloodPressure1 = bloodpressure1Value;
+        }
+    }
+    private void CheckBloodPressure2(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value.ToString(), out int bloodpressure2Value))
+        {
+            bloodPressure2 = bloodpressure2Value;
+        }
+    }
+    private string GetColorForBloodPressure()
+    {
+        if (bloodPressure1 != null || bloodPressure2 != null)
+        {
+            if (bloodPressure1 > 130)
+            {
+                return "red";
+            }
+            else if (bloodPressure2 > 80)
+            {
+                return "red";
+            }
+        }
+        return "black"; // 其他情況為黑色
+    }
+
+
+    private int? pulse = null;
+    private void CheckPulse(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value.ToString(), out int pulseValue))
+        {
+            pulse = pulseValue;
+        }
+    }
+    private string GetColorForPulse()
+    {
+        if (pulse != null)
+        {
+            if (pulse < 60)
+            {
+                return "blue"; // 如果脈搏小於60，將文字變為藍色
+            }
+            else if (pulse > 100)
+            {
+                return "red"; // 如果脈搏大於100，將文字變為紅色
+            }
+        }
+        return "black"; // 其他情況為黑色
+    }
+
+    private double? temperature = null;
+    private void CheckTemperature(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value.ToString(), out int temperatureValue))
+        {
+            temperature = temperatureValue;
+        }
+    }
+    private string GetColorForTemperature()
+    {
+        if (temperature != null)
+        {
+            if (temperature < 35)
+            {
+                return "blue";
+            }
+            else if (temperature > 37.5)
+            {
+                return "red";
+            }
+        }
+        return "black"; // 其他情況為黑色
+    }
+
+    private int? bloodsugar = null;
+    private string bloodsugarTiming;
+    private string GetColorForBloodSugar()
+    {
+        // 根據條件直接返回文字顏色
+        if (bloodsugarTiming == "fasting")
+        {
+            return bloodsugar < 70 ? "color: blue;" : bloodsugar > 99 ? "color: red;" : "color: black;";
+        }
+        else if (bloodsugarTiming == "postMeal")
+        {
+            return bloodsugar < 80 ? "color: blue;" : bloodsugar > 140 ? "color: red;" : "color: black;";
+        }
+
+        return "color: black;"; // 預設為黑色
+    }
+
+    private int? bloodoxygen = null;
+    private void CheckBloodoxygen(ChangeEventArgs e)
+    {
+        if (int.TryParse(e.Value.ToString(), out int bloodoxygenValue))
+        {
+            bloodoxygen = bloodoxygenValue;
+        }
+    }
+    private string GetColorForBloodoxygen()
+    {
+        if (bloodoxygen != null || bloodoxygen < 95)
+        {
+            return "red";
+        }
+
+        return "black"; // 其他情況為黑色
+    }
+
+    private void GoToHomePage()
+    {
+        NavigationManager.NavigateTo("/home");
+
+    }
+}
+
+<style>
+    table {
+        border-collapse: collapse;
+        width: 100%;
+        color: black;
+    }
+
+    th, td {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+</style>
+

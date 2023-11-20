@@ -1,0 +1,94 @@
+﻿@page "/education"
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+
+
+<div class="education-page">
+    <h1>衛教資訊</h1><br />
+    <h3>高血壓:</h3>
+    <ol>
+        <li>認識血壓：正常範圍收縮壓＜120mmHg，舒張壓＞80mmHg</li>
+        <li>藥物治療：應確實按醫生醫囑服藥不可任意停藥，即使血壓已控制穩定，或遇到副作用，請與醫生討論，不宜自行停藥。</li>
+        <li>
+            生活型態的調適
+            <ol>
+                <li>體重控制：維持理想體重，減輕體重過重所增加之心臟負荷。減少食鹽之攝取。</li>
+                <li>避免吸菸及過量飲酒。</li>
+                <li>適度體能活動：每天至少40分鐘，每周至少3~4天，溫和的有氧運動，例如：快走、慢跑、騎腳踏車等。</li>
+                <li>放鬆訓練、降低壓力。</li>
+            </ol>
+        </li>
+    </ol>
+
+    <button class="btn btn-primary btn-sm" @onclick="() => OpenBrochure(hypertensionBrochureLink)">衛教單張 - 高血壓</button><br><br>
+
+    <h3>糖尿病:</h3>
+    <ol>
+        <li>糖尿病主要症狀有多吃、多喝、多尿、體重減輕，次要症狀有體重減輕、容易疲倦、皮膚搔癢、傷口不易癒合、腳部痠麻、刺痛、視力減退、容易泌尿道感染等。</li>
+        <li>糖尿病治療需飲食、運動、藥物控制及血糖監測必須配合。</li>
+        <li>
+            控制飲食：
+            <ol>
+                <li>定時、定量，多吃纖維量多的食物(如蔬菜)。</li>
+                <li>用植物油炒菜，少吃油炸食物及甜食。</li>
+                <li>少喝含糖飲料、酒類，避免額外食用含高澱粉的點心。</li>
+                <li>攝取低鹽飲食。</li>
+                <li>食用適量的水果。</li>
+            </ol>
+        </li>
+        <li>運動：每天運動持續半小時，依自己的體力選擇運動項目，以慢跑、散步為適合。</li>
+    </ol>
+
+    <button class="btn btn-primary btn-sm" @onclick="() => OpenBrochure(diabetesBrochureLink)">衛教單張 - 糖尿病</button><br><br>
+
+    <h3>預防跌倒:</h3>
+    <ol>
+        <li>下床採漸進式下床，下床前請先坐於床上約3-5分鐘，再下床站立 3-5 分鐘後無暈眩感再活動，或由照顧者攙扶下床活動。</li>
+        <li>行動不便者下床活動時需有人陪伴；若急於上廁所，應使用床上便盆或活動便盆椅，勿自行下床。</li>
+        <li>睡前請先如廁，減少夜間上廁所次數。</li>
+        <li>爬樓梯或是如廁時確保環境燈光明亮，照明充足、視野清楚再活動。</li>
+        <li>地面避免堆積雜物，以防絆倒；保持地面乾燥，警覺濕滑地面。</li>
+        <li>請正確且安全的使用枴杖、助行器、輪椅等輔助器材。</li>
+    </ol>
+
+    <button class="btn btn-primary btn-sm" @onclick="() => OpenBrochure(fallPreventionBrochureLink)">衛教單張 - 預防跌倒</button><br><br>
+
+    <div class="checkbox-container">
+        <input type="checkbox" @bind="isEducationCompleted" />
+        <label>已完成此次衛教</label>
+    </div>
+    <br>
+    <div style="margin-top: 20px;">
+        <button @onclick="NavigateToOtherPage3">回到首頁</button>
+    </div>
+    <br><br>
+
+</div>
+
+@code {
+    private bool isEducationCompleted = false;
+
+    string hypertensionBrochureLink = "https://www.tph.mohw.gov.tw/?aid=801&pid=46&page_name=detail&iid=1686";
+    string diabetesBrochureLink = "https://www.tph.mohw.gov.tw/?aid=801&pid=46&page_name=detail&iid=1675";
+    string fallPreventionBrochureLink = "https://www.tph.mohw.gov.tw/?aid=801&pid=46&page_name=detail&iid=1781";
+
+    private void OpenBrochure(string url)
+    {
+        // 在新分頁開啟指定的 URL
+        JSRuntime.InvokeVoidAsync("window.open", url, "_blank");
+    }
+
+    private NavigationManager Navigation { get; set; }
+    private void NavigateToOtherPage3()
+    {
+        if (NavigationManager != null)
+        {
+            NavigationManager.NavigateTo("/home");
+        }
+        else
+        {
+            // 在這裡處理 NavigationManager 為 null 的情況
+        }
+    }
+
+}

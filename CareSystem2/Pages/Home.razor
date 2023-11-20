@@ -1,0 +1,122 @@
+﻿@page "/home"
+
+<nav class="nav-bar">
+    <h2>社區照護系統</h2>
+    <button @onclick="NavigateToOtherPagehome">登出</button>
+</nav>
+
+
+<div class="square-box-container">
+    <!-- 第一個方形框 -->
+    <div class="square-box">
+        <button @onclick="NavigateToOtherPage1">搜尋資料</button>
+    </div>
+
+    <!-- 第二個方形框 -->
+    <div class="square-box">
+        <button @onclick="NavigateToOtherPage2">新增資料</button>
+    </div>
+
+    <!-- 第三個方形框 -->
+    <div class="square-box">
+        <button @onclick="NavigateToOtherPage3">衛教資訊</button>
+    </div>
+</div>
+
+
+<style>
+    .nav-bar {
+        background-color: #555; /* 導覽列的背景顏色 */
+        color: #fff; /* 文字顏色*/
+        padding: 10px; /* 邊距 */
+        display: flex;
+        justify-content: space-between;
+        align-items: center; /* 垂直對齊 */
+    }
+
+    .nav-link {
+        text-decoration: underline; /* 添加底線 */
+        color: #555; /* 文字顏色 */
+        margin-right: 10px; /* 間距 */
+    }
+
+    .square-box-container {
+        display: flex; /* 水平排列 */
+        justify-content: center; /* 水平對齊 */
+    }
+
+    .square-box {
+        width: 230px;
+        height: 230px;
+        background-color: #f0f0f0;
+        color: #555;
+        text-align: center;
+        display: flex;
+        align-items: center; /* 垂直對齊*/
+        justify-content: center;
+        margin: 10px;
+    }
+
+    .add-button {
+        background-color: #555;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        cursor: pointer;
+        display: flex; /* 添加 display: flex; 让子元素水平和垂直居中 */
+    }
+</style>
+
+
+
+@code {
+    @inject NavigationManager NavigationManager
+    private NavigationManager Navigation { get; set; }
+    private void NavigateToOtherPage1()
+    {
+        if (NavigationManager != null)
+        {
+            NavigationManager.NavigateTo("/list");
+        }
+        else
+        {
+            // 在這裡處理 NavigationManager 為 null 的情況
+        }
+    }
+
+    private void NavigateToOtherPage2()
+    {
+        if (NavigationManager != null)
+        {
+            NavigationManager.NavigateTo("/newdata");
+        }
+        else
+        {
+            // 在這裡處理 NavigationManager 為 null 的情況
+        }
+    }
+
+    private void NavigateToOtherPage3()
+    {
+        if (NavigationManager != null)
+        {
+            NavigationManager.NavigateTo("/education");
+        }
+        else
+        {
+            // 在這裡處理 NavigationManager 為 null 的情況
+        }
+    }
+
+    private void NavigateToOtherPagehome()
+    {
+        if (NavigationManager != null)
+        {
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            // 在這裡處理 NavigationManager 為 null 的情況
+        }
+    }
+}
