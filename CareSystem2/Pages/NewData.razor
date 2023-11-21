@@ -81,18 +81,34 @@
             <td><label for="Remarks">備註：</label></td>
             <td><InputTextArea id="Remarks" @bind-Value="newPatient.Remarks" /></td>
         </tr>
+        <tr>
+            <button @onclick="Toggle">結案</button>
+            @if (showClosureReason)
+            {
+                <div>
+                    <label>結案原因：</label>
+                    <input type="text" @bind="closureReason" />
+                </div>
+            }
+        </tr>
     </table>
+
+ 
+
     <div style="text-align: center;">
         <button type="submit">儲存</button>
     </div>
+
+
 </EditForm>
 
 
 @code {
+
     private Patient newPatient = new Patient
-    {
-        BirthDate = DateTime.Today
-    };
+        {
+              BirthDate = DateTime.Today
+        };
     @inject NavigationManager NavigationManager
 
     public class Patient
@@ -127,6 +143,14 @@
 
     private void SaveData()
     {
-        NavigationManager.NavigateTo("/home");
+        NavigationManager.NavigateTo("/list");
+    }
+
+    private bool showClosureReason = false;
+    private string closureReason = "";
+
+    private void Toggle()
+    {
+        showClosureReason = !showClosureReason;
     }
 }
