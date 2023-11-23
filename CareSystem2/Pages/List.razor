@@ -6,6 +6,17 @@
     <input type="text" @bind="searchQuery" placeholder="請輸入身分證、姓名或病例號查詢" @onkeydown="HandleKeyPress" style="width: 300px;" />
     <button @onclick="Search">搜尋</button>
 </div>
+<br />
+<div>
+    <center>
+        <InputSelect id="Gender" @bind-Value="selectedOption">
+            <option>未結案資料</option>
+            <option>全部資料</option>
+            <option>已結案資料</option>
+        </InputSelect>
+    </center>
+</div>
+
 
 <div style="margin-bottom: 10px;"></div>
 
@@ -40,17 +51,21 @@
                     <button @onclick="TogglePopup">檢查紀錄</button>
                 </td>
                 <td>
-                    <button @onclick="NavigateToOtherPage3">評值</button>
+                    <button @onclick="TogglePopup2">評值</button>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+<label>未完成個案</label>；<lable style="color:red;">已結案個案</lable>
 <div style="text-align: center;">
     <button @onclick="NavigateToHomePage">回首頁</button>
     <button @onclick="AddFile">新增資料</button>
 </div>
 <DropDownMenu ShowPopup="@showPopup" OnClosePopup="ClosePopup" />
+<DropDownMenu2 ShowPopup2="@showPopup2" OnClosePopup="ClosePopup2" />
+
+
 @code {
 
     private bool showPopup = false;
@@ -64,7 +79,19 @@
         showPopup = false;
     }
 
+    private bool showPopup2 = false;
+    private void TogglePopup2()
+    {
+        showPopup2 = !showPopup2;
+    }
+
+    private void ClosePopup2()
+    {
+        showPopup2 = false;
+    }
+
     private string searchQuery = "";
+    private string selectedOption = "";
     private List<Patient> patients = new List<Patient>
 {
         new Patient { Id = "A123456789", Name = "張三", CaseNumber = "1001", Phone = "0912-345-678", Address = "地址1", FamilyMember = "家人1" },
@@ -154,7 +181,7 @@
 
     private void NavigateToHomePage()
     {
-        NavigationManager.NavigateTo("/");
+        NavigationManager.NavigateTo("/home");
     }
     private void AddFile()
     {

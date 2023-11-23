@@ -8,15 +8,15 @@
 
     <table class="table">
         <tr>
-            <td><label for="CaseNumber">病歷號：</label></td>
+            <td style="width: 15%;"><label for="CaseNumber">病歷號：</label></td>
             <td><InputText id="CaseNumber" @bind-Value="newPatient.CaseNumber" /></td>
         </tr>
         <tr>
-            <td><label for="Name">姓名：</label></td>
+            <td style="width: 15%;"><label for="Name">姓名：</label></td>
             <td><InputText id="Name" @bind-Value="newPatient.Name" /></td>
         </tr>
         <tr>
-            <td><label for="Gender">性別：</label></td>
+            <td style="width: 15%;"><label for="Gender">性別：</label></td>
             <td>
                 <InputSelect id="Gender" @bind-Value="newPatient.Gender">
                     <option value="Male">生理男</option>
@@ -26,23 +26,23 @@
             </td>
         </tr>
         <tr>
-            <td><label for="BirthDate">出生日期：</label></td>
+            <td style="width: 15%;"><label for="BirthDate">出生日期：</label></td>
             <td><InputDate id="BirthDate" @bind-Value="newPatient.BirthDate" /></td>
         </tr>
         <tr>
-            <td><label for="Age">年齡：</label></td>
+            <td style="width: 15%;"><label for="Age">年齡：</label></td>
             <td>@CalculateAge()</td>
         </tr>
         <tr>
-            <td><label for="Id">身分證：</label></td>
+            <td style="width: 15%;"><label for="Id">身分證：</label></td>
             <td><InputText id="Id" @bind-Value="newPatient.Id" /></td>
         </tr>
         <tr>
-            <td><label for="Phone">手機號碼：</label></td>
+            <td style="width: 15%;"><label for="Phone">手機號碼：</label></td>
             <td><InputText id="Phone" @bind-Value="newPatient.Phone" /></td>
         </tr>
         <tr>
-            <td><label for="Language">語言：</label></td>
+            <td style="width: 15%;"><label for="Language">語言：</label></td>
             <td>
                 <InputSelect id="Language" @bind-Value="newPatient.Language">
                     <option value="國語">國語</option>
@@ -54,41 +54,49 @@
             </td>
         </tr>
         <tr>
-            <td><label for="Address">地址：</label></td>
+            <td style="width: 15%;"><label for="Address">地址：</label></td>
             <td><InputText id="Address" @bind-Value="newPatient.Address" /></td>
         </tr>
         <tr>
-            <td><label for="MedicalHistory">病史：</label></td>
+            <td style="width: 15%;"><label for="MedicalHistory">病史：</label></td>
             <td><InputTextArea id="MedicalHistory" @bind-Value="newPatient.MedicalHistory" /></td>
         </tr>
         <tr>
-            <td><label for="EmergencyContact">緊急聯絡人：</label></td>
+            <td style="width: 15%;"><label for="EmergencyContact">緊急聯絡人：</label></td>
             <td><InputText id="EmergencyContact" @bind-Value="newPatient.EmergencyContact" /></td>
         </tr>
         <tr>
-            <td><label for="Relationship">關係：</label></td>
+            <td style="width: 15%;"><label for="Relationship">關係：</label></td>
             <td><InputText id="Relationship" @bind-Value="newPatient.Relationship" /></td>
         </tr>
         <tr>
-            <td><label for="EmergencyPhone">緊急聯絡人電話：</label></td>
+            <td style="width: 15%;"><label for="EmergencyPhone">緊急聯絡人電話：</label></td>
             <td><InputText id="EmergencyPhone" @bind-Value="newPatient.EmergencyPhone" /></td>
         </tr>
         <tr>
-            <td><label for="FamilyMember">家人：</label></td>
+            <td style="width: 15%;"><label for="FamilyMember">家人：</label></td>
             <td><InputText id="FamilyMember" @bind-Value="newPatient.FamilyMember" /></td>
         </tr>
         <tr>
-            <td><label for="Remarks">備註：</label></td>
-            <td><InputTextArea id="Remarks" @bind-Value="newPatient.Remarks" /></td>
+            <td style="width: 15%;"><label for="Remarks">備註：</label></td>
+            <td><InputText id="Remarks" @bind-Value="newPatient.Remarks" /></td>
+        </tr>
+        <tr>
+            <td style="width: 15%;"><input type="checkbox" @onclick="Toggle">  結案</td>
+            <td><InputText @bind-Value="newPatient.Closure" placeholder="請輸入結案原因：" /></td>
+
         </tr>
     </table>
     <div style="text-align: center;">
         <button type="submit">儲存</button>
     </div>
+
+
 </EditForm>
 
 
 @code {
+
     private Patient newPatient = new Patient
     {
         BirthDate = DateTime.Today
@@ -111,6 +119,7 @@
         public string EmergencyPhone { get; set; }
         public string FamilyMember { get; set; }
         public string Remarks { get; set; }
+        public string Closure { get; set; }
     }
 
     private string CalculateAge()
@@ -127,6 +136,14 @@
 
     private void SaveData()
     {
-        NavigationManager.NavigateTo("/home");
+        NavigationManager.NavigateTo("/list");
+    }
+
+    private bool showClosureReason = false;
+    private string closureReason = "";
+
+    private void Toggle()
+    {
+        showClosureReason = !showClosureReason;
     }
 }
