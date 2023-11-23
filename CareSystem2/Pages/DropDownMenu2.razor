@@ -1,4 +1,4 @@
-﻿@if (showPopup2)
+﻿@if (ShowPopup2)
 {
     <div class="overlay">
         <div class="popup">
@@ -42,13 +42,12 @@
     </div>
 }
 
+
 @code {
     [Parameter] public bool ShowPopup2 { get; set; }
     [Parameter] public EventCallback OnClosePopup { get; set; }
 
     [Inject] private NavigationManager NavigationManager { get; set; }
-
-    private bool showPopup2 = false; // 加入這一行
 
     private void ClosePopup()
     {
@@ -58,12 +57,12 @@
 
     private void SubmitForm()
     {
-        NavigationManager.NavigateTo("/record");
+        NavigationManager.NavigateTo("/evaluation");
     }
 
     private void EditRecord(int recordId)
     {
-        NavigationManager.NavigateTo($"/details/{recordId}");
+        NavigationManager.NavigateTo("/evaluation");
 
     }
 

@@ -1,88 +1,98 @@
 ﻿@page "/list"
 
-    <h1>病患清單</h1>
+<h1>病患清單</h1>
 
-    <div style="text-align: center;">
-        <input type="text" @bind="searchQuery" placeholder="請輸入身分證、姓名或病例號查詢" @onkeydown="HandleKeyPress" style="width: 300px;" />
-        <button @onclick="Search">搜尋</button>
-        <InputSelect id="Gender" @bind-Value="searchQuery">
+<div style="text-align: center;">
+    <input type="text" @bind="searchQuery" placeholder="請輸入身分證、姓名或病例號查詢" @onkeydown="HandleKeyPress" style="width: 300px;" />
+    <button @onclick="Search">搜尋</button>
+</div>
+<br />
+<div>
+    <center>
+        <InputSelect id="Gender" @bind-Value="selectedOption">
             <option>未結案資料</option>
             <option>全部資料</option>
             <option>已結案資料</option>
         </InputSelect>
-    </div>
+    </center>
+</div>
 
-    <div style="margin-bottom: 10px;"></div>
 
-    <table class="table table-bordered table-hover">
-        <thead>
+<div style="margin-bottom: 10px;"></div>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>身分證</th>
+            <th>姓名</th>
+            <th>病例號</th>
+            <th>手機號碼</th>
+            <th>地址</th>
+            <th>家人</th>
+            <th> </th>
+            <th> </th>
+            <th> </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var patient in filteredPatients)
+        {
             <tr>
-                <th>身分證</th>
-                <th>姓名</th>
-                <th>病例號</th>
-                <th>手機號碼</th>
-                <th>地址</th>
-                <th>家人</th>
-                <th> </th>
-                <th> </th>
-                <th> </th>
+                <td>@patient.Id</td>
+                <td>@patient.Name</td>
+                <td>@patient.CaseNumber</td>
+                <td>@patient.Phone</td>
+                <td>@patient.Address</td>
+                <td>@patient.FamilyMember</td>
+                <td>
+                    <button @onclick="NavigateToOtherPage1">編輯</button>
+                </td>
+                <td>
+                    <button @onclick="TogglePopup">檢查紀錄</button>
+                </td>
+                <td>
+                    <button @onclick="TogglePopup2">評值</button>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var patient in filteredPatients)
-            {
-                <tr>
-                    <td>@patient.Id</td>
-                    <td>@patient.Name</td>
-                    <td>@patient.CaseNumber</td>
-                    <td>@patient.Phone</td>
-                    <td>@patient.Address</td>
-                    <td>@patient.FamilyMember</td>
-                    <td>
-                        <button @onclick="NavigateToOtherPage1">編輯</button>
-                    </td>
-                    <td>
-                        <button @onclick="TogglePopup">檢查紀錄</button>
-                    </td>
-                    <td>
-                        <button @onclick="TogglePopup2">評值</button>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    <div style="text-align: center;">
-        <button @onclick="NavigateToHomePage">回首頁</button>
-        <button @onclick="AddFile">新增資料</button>
-    </div>
-    <DropDownMenu ShowPopup="@showPopup" OnClosePopup="ClosePopup" />
-    <DropDownMenu2 ShowPopup2="@showPopup2" OnClosePopup="ClosePopup2" />
-    @code {
-
-        private bool showPopup = false;
-        private void TogglePopup()
-        {
-            showPopup = !showPopup;
         }
+    </tbody>
+</table>
+<label>未完成個案</label>；<lable style="color:red;">已結案個案</lable>
+<div style="text-align: center;">
+    <button @onclick="NavigateToHomePage">回首頁</button>
+    <button @onclick="AddFile">新增資料</button>
+</div>
+<DropDownMenu ShowPopup="@showPopup" OnClosePopup="ClosePopup" />
+<DropDownMenu2 ShowPopup2="@showPopup2" OnClosePopup="ClosePopup2" />
 
-        private void ClosePopup()
-        {
-            showPopup = false;
-        }
 
-        private bool showPopup2 = false;
-        private void TogglePopup2()
-        {
-            showPopup2 = !showPopup2;
-        }
+@code {
 
-        private void ClosePopup2()
-        {
-            showPopup2 = false;
-        }
+    private bool showPopup = false;
+    private void TogglePopup()
+    {
+        showPopup = !showPopup;
+    }
 
-        private string searchQuery = "";
-        private List<Patient> patients = new List<Patient>
+    private void ClosePopup()
+    {
+        showPopup = false;
+    }
+
+    private bool showPopup2 = false;
+    private void TogglePopup2()
+    {
+        showPopup2 = !showPopup2;
+    }
+
+    private void ClosePopup2()
+    {
+        showPopup2 = false;
+    }
+
+    private string searchQuery = "";
+    private string selectedOption = "";
+    private List<Patient> patients = new List<Patient>
 {
         new Patient { Id = "A123456789", Name = "張三", CaseNumber = "1001", Phone = "0912-345-678", Address = "地址1", FamilyMember = "家人1" },
         new Patient { Id = "B789012345", Name = "李四", CaseNumber = "1002", Phone = "0987-654-321", Address = "地址2", FamilyMember = "家人2" },
@@ -91,92 +101,92 @@
         new Patient { Id = "E456789012", Name = "許七", CaseNumber = "1005", Phone = "0933-333-334", Address = "地址5", FamilyMember = "家人5" },
     };
 
-        private List<Patient> filteredPatients = new List<Patient>();
+    private List<Patient> filteredPatients = new List<Patient>();
 
-        private void EditPatient(Patient patient)
+    private void EditPatient(Patient patient)
+    {
+        NavigationManager.NavigateTo($"/newdata/{patient.Id}");
+    }
+
+    private void ViewPatient(Patient patient)
+    {
+        NavigationManager.NavigateTo($"/record/{patient.Id}");
+    }
+
+    protected override void OnInitialized()
+    {
+        filteredPatients = patients;
+    }
+
+
+
+    private void Search()
+    {
+        if (!string.IsNullOrWhiteSpace(searchQuery))
         {
-            NavigationManager.NavigateTo($"/newdata/{patient.Id}");
+            filteredPatients = patients
+                .Where(p => p.Id.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                        p.Name.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
+                        p.CaseNumber.Contains(searchQuery, StringComparison.OrdinalIgnoreCase))
+                .ToList();
         }
-
-        private void ViewPatient(Patient patient)
-        {
-            NavigationManager.NavigateTo($"/record/{patient.Id}");
-        }
-
-        protected override void OnInitialized()
+        else
         {
             filteredPatients = patients;
         }
+    }
 
-
-
-        private void Search()
+    private void HandleKeyPress(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
         {
-            if (!string.IsNullOrWhiteSpace(searchQuery))
-            {
-                filteredPatients = patients
-                    .Where(p => p.Id.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
-                            p.Name.Contains(searchQuery, StringComparison.OrdinalIgnoreCase) ||
-                            p.CaseNumber.Contains(searchQuery, StringComparison.OrdinalIgnoreCase))
-                    .ToList();
-            }
-            else
-            {
-                filteredPatients = patients;
-            }
+            Search();
         }
+    }
 
-        private void HandleKeyPress(KeyboardEventArgs e)
-        {
-            if (e.Key == "Enter")
-            {
-                Search();
-            }
-        }
+    public class Patient
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string CaseNumber { get; set; }
+        public string Phone { get; set; }
+        public string Address { get; set; }
+        public string? FamilyMember { get; set; }
+    }
 
-        public class Patient
-        {
-            public string Id { get; set; }
-            public string Name { get; set; }
-            public string CaseNumber { get; set; }
-            public string Phone { get; set; }
-            public string Address { get; set; }
-            public string? FamilyMember { get; set; }
-        }
-
-        @inject NavigationManager NavigationManager
-        private NavigationManager Navigation { get; set; }
-        private void NavigateToOtherPage1()
-        {
-            if (NavigationManager != null)
-            {
-                NavigationManager.NavigateTo("/newdata");
-            }
-            else
-            {
-                // 在這裡處理 NavigationManager 為 null 的情況
-            }
-        }
-        private void NavigateToOtherPage3()
-        {
-            if (NavigationManager != null)
-            {
-                NavigationManager.NavigateTo("/evaluation");
-            }
-            else
-            {
-                // 在這裡處理 NavigationManager 為 null 的情況
-            }
-        }
-
-        private void NavigateToHomePage()
-        {
-            NavigationManager.NavigateTo("/home");
-        }
-        private void AddFile()
+    @inject NavigationManager NavigationManager
+    private NavigationManager Navigation { get; set; }
+    private void NavigateToOtherPage1()
+    {
+        if (NavigationManager != null)
         {
             NavigationManager.NavigateTo("/newdata");
         }
-
-
+        else
+        {
+            // 在這裡處理 NavigationManager 為 null 的情況
+        }
     }
+    private void NavigateToOtherPage3()
+    {
+        if (NavigationManager != null)
+        {
+            NavigationManager.NavigateTo("/evaluation");
+        }
+        else
+        {
+            // 在這裡處理 NavigationManager 為 null 的情況
+        }
+    }
+
+    private void NavigateToHomePage()
+    {
+        NavigationManager.NavigateTo("/home");
+    }
+    private void AddFile()
+    {
+        NavigationManager.NavigateTo("/newdata");
+    }
+
+
+}
