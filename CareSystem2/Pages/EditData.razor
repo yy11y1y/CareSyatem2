@@ -1,6 +1,6 @@
-﻿@page "/newdata"
+﻿@page "/editdata"
 
-<h1>新增資料</h1>
+<h1>編輯資料</h1>
 
 <EditForm Model="newPatient" OnValidSubmit="SaveData">
     <DataAnnotationsValidator />
@@ -119,9 +119,27 @@
             <td><InputText id="Remarks" @bind-Value="newPatient.Remarks" /></td>
         </tr>
     </table>
+
+    <table frame=void> 
+        <tr>
+            <td style="width: 15%;"><input type="checkbox" @onclick="Toggle">  結案</td>
+            @if (showClosureReason)
+                {
+                  <td style="width: 17%;"><label for="ClosureDate">結案日期：</label>
+                  <InputDate id="ClosureDate" @bind-Value="newPatient.ClosureDate" />
+                  </td>
+            <td><InputText @bind-Value="newPatient.Closure" placeholder="請輸入結案原因：" /></td>
+                }
+        </tr>
+    </table>
+    <br />
     <div style="text-align: center;">
         <button type="submit">儲存</button>
     </div>
+
+    <br />
+    <br />
+    <br />
 
 
 </EditForm>

@@ -1,29 +1,28 @@
-﻿@if (showPopup)
+﻿@if (showPopup2)
 {
     <div class="overlay">
         <div class="popup">
             <div class="popup-header">
-                <span class="close" @onclick="ClosePopup">&times;</span>
-                <h4 style="text-align: center;">歷史紀錄</h4>
+                <span class="close" @onclick="ClosePopup2">&times;</span>
+                <h4 style="text-align: center;">評值歷史紀錄</h4>
             </div>
             <div>
-                <p>病人名字: @CurrentPatientNameAndNumber.Split('-')[0].Trim() / 病例號: @CurrentPatientNameAndNumber.Split('-')[1].Trim() </p>
+                <p>病人名字: @CurrentPatientNameAndNumber2.Split('-')[0].Trim() / 病例號: @CurrentPatientNameAndNumber2.Split('-')[1].Trim() </p>
             </div>
-
             <div style="margin-top: 10px;">
-                <input type="text" @bind="searchText" placeholder="搜尋序號或日期" />
+                <input type="text" @bind="searchText" placeholder="搜尋日期" />
                 <button @onclick="SearchRecords">搜尋</button>
             </div>
             <div style="margin-top: 10px;"></div>
             <form>
-                <button type="button" @onclick="SubmitForm">新增檢查紀錄</button>
+                <button type="button" @onclick="SubmitForm">新增評值</button>
             </form>
 
             <div style="text-align: center; max-height: 300px; overflow-y: auto;">
                 <table>
                     <thead>
                         <tr>
-                            <th>序號</th>
+                            <th>次數</th>
                             <th>日期</th>
                             <th>修改</th>
                             <th>刪除</th>
@@ -46,31 +45,29 @@
     </div>
 }
 
-@code {
-    [Parameter] public bool showPopup { get; set; }
-    [Parameter] public EventCallback OnClosePopup { get; set; }
-    [Parameter] public EventCallback<string> CurrentPatientInfo { get; set; }
-    [Parameter] public string CurrentPatientNameAndNumber { get; set; }
 
-    private string Name = "";
-    private string caseNumber = "";
+@code {
+    [Parameter] public bool showPopup2 { get; set; }
+    [Parameter] public EventCallback OnClosePopup2 { get; set; }
+    [Parameter] public EventCallback<string> CurrentPatientInfo2 { get; set; }
+    [Parameter] public string CurrentPatientNameAndNumber2 { get; set; }
 
     [Inject] private NavigationManager NavigationManager { get; set; }
 
-    private void ClosePopup()
+    private void ClosePopup2()
     {
-        showPopup = false;
-        OnClosePopup.InvokeAsync();
+        showPopup2 = false;
+        OnClosePopup2.InvokeAsync();
     }
 
     private void SubmitForm()
     {
-        NavigationManager.NavigateTo("/record");
+        NavigationManager.NavigateTo("/evaluation");
     }
 
     private void EditRecord(int recordId)
     {
-        NavigationManager.NavigateTo("/record");
+        NavigationManager.NavigateTo("/evaluation");
 
     }
 
