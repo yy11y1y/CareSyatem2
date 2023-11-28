@@ -42,16 +42,16 @@
                 <td>@patient.Name</td>
                 <td>@patient.CaseNumber</td>
                 <td>@patient.Phone</td>
-                <td>@patient.Address</td>
+                <td><a href="@patient.GoogleMapLink" target="_blank">@patient.Address</a></td>
                 <td>@patient.FamilyMember</td>
                 <td>
                     <button @onclick="NavigateToOtherPage1">編輯</button>
                 </td>
                 <td>
-                    <button @onclick="TogglePopup">檢查紀錄</button>
+                    <button @onclick="() => TogglePopup(patient.CurrentPatientNameAndNumber)">檢查紀錄</button>
                 </td>
                 <td>
-                    <button @onclick="TogglePopup2">評值</button>
+                    <button @onclick="() => TogglePopup2(patient.CurrentPatientNameAndNumber2)">評值</button>
                 </td>
             </tr>
         }
@@ -62,29 +62,44 @@
     <button @onclick="NavigateToHomePage">回首頁</button>
     <button @onclick="AddFile">新增資料</button>
 </div>
-<DropDownMenu ShowPopup="@showPopup" OnClosePopup="ClosePopup" />
-<DropDownMenu ShowPopup="@showPopup2" OnClosePopup="ClosePopup2" />
+
+<DropDownMenu ShowPopup="@showPopup" OnClosePopup="ClosePopup" CurrentPatientInfo="TogglePopup" CurrentPatientNameAndNumber="@currentPatientNameAndNumber"/>
+<DropDownMenu2 ShowPopup2="@showPopup2" OnClosePopup2="ClosePopup2" CurrentPatientInfo2="TogglePopup2" CurrentPatientNameAndNumber2="@currentPatientNameAndNumber2"/>
+
 
 
 @code {
+    [Parameter] public EventCallback<string> CurrentPatientInfo { get; set; }
+    [Parameter] public EventCallback<string> CurrentPatientInfo2 { get; set; }
+
 
     private bool showPopup = false;
-    private void TogglePopup()
+    private string currentPatientNameAndNumber = "";
+    public async Task TogglePopup(String patientInfo)
     {
+        currentPatientNameAndNumber = patientInfo;
         showPopup = !showPopup;
     }
-
     private void ClosePopup()
     {
         showPopup = false;
     }
 
     private bool showPopup2 = false;
-    private void TogglePopup2()
+    private string currentPatientNameAndNumber2 = "";
+    public async Task TogglePopup2(string patientInfo)
     {
+        currentPatientNameAndNumber2 = patientInfo;
         showPopup2 = !showPopup2;
-    }
 
+        if (showPopup2)
+        {
+            showPopup = false; // 確保另一個彈出視窗關閉
+        }
+
+        await CurrentPatientInfo2.InvokeAsync(patientInfo); // 要加上這一行
+        StateHasChanged();
+    }
     private void ClosePopup2()
     {
         showPopup2 = false;
@@ -93,7 +108,7 @@
     private string searchQuery = "";
     private string selectedOption = "";
     private List<Patient> patients = new List<Patient>
-{
+    {
         new Patient { Id = "A123456789", Name = "張三", CaseNumber = "1001", Phone = "0912-345-678", Address = "地址1", FamilyMember = "家人1" },
         new Patient { Id = "B789012345", Name = "李四", CaseNumber = "1002", Phone = "0987-654-321", Address = "地址2", FamilyMember = "家人2" },
         new Patient { Id = "C456789012", Name = "王五", CaseNumber = "1003", Phone = "0933-333-333", Address = "地址3", FamilyMember = "家人3" },
@@ -152,6 +167,11 @@
         public string Phone { get; set; }
         public string Address { get; set; }
         public string? FamilyMember { get; set; }
+
+        public string CurrentPatientNameAndNumber => $"{Name} - {CaseNumber}";
+        public string CurrentPatientNameAndNumber2 => $"{Name} - {CaseNumber}";
+        public string GoogleMapLink => $"https://www.google.com/maps?authuser=0";
+
     }
 
     @inject NavigationManager NavigationManager
@@ -160,11 +180,7 @@
     {
         if (NavigationManager != null)
         {
-            NavigationManager.NavigateTo("/newdata");
-        }
-        else
-        {
-            // 在這裡處理 NavigationManager 為 null 的情況
+            NavigationManager.NavigateTo("/editdata");
         }
     }
     private void NavigateToOtherPage3()
@@ -172,10 +188,6 @@
         if (NavigationManager != null)
         {
             NavigationManager.NavigateTo("/evaluation");
-        }
-        else
-        {
-            // 在這裡處理 NavigationManager 為 null 的情況
         }
     }
 

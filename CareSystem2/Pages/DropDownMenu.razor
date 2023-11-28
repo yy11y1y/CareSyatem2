@@ -1,4 +1,4 @@
-﻿@if (ShowPopup)
+﻿@if (showPopup)
 {
     <div class="overlay">
         <div class="popup">
@@ -6,6 +6,10 @@
                 <span class="close" @onclick="ClosePopup">&times;</span>
                 <h4 style="text-align: center;">歷史紀錄</h4>
             </div>
+            <div>
+                <p>病人名字: @CurrentPatientNameAndNumber.Split('-')[0].Trim() / 病例號: @CurrentPatientNameAndNumber.Split('-')[1].Trim() </p>
+            </div>
+
             <div style="margin-top: 10px;">
                 <input type="text" @bind="searchText" placeholder="搜尋序號或日期" />
                 <button @onclick="SearchRecords">搜尋</button>
@@ -43,14 +47,19 @@
 }
 
 @code {
-    [Parameter] public bool ShowPopup { get; set; }
+    [Parameter] public bool showPopup { get; set; }
     [Parameter] public EventCallback OnClosePopup { get; set; }
+    [Parameter] public EventCallback<string> CurrentPatientInfo { get; set; }
+    [Parameter] public string CurrentPatientNameAndNumber { get; set; }
+
+    private string Name = "";
+    private string caseNumber = "";
 
     [Inject] private NavigationManager NavigationManager { get; set; }
 
     private void ClosePopup()
     {
-        ShowPopup = false;
+        showPopup = false;
         OnClosePopup.InvokeAsync();
     }
 
@@ -61,7 +70,7 @@
 
     private void EditRecord(int recordId)
     {
-        NavigationManager.NavigateTo($"/details/{recordId}");
+        NavigationManager.NavigateTo("/record");
 
     }
 

@@ -1,10 +1,13 @@
-﻿@if (ShowPopup2)
+﻿@if (showPopup2)
 {
     <div class="overlay">
         <div class="popup">
             <div class="popup-header">
-                <span class="close" @onclick="ClosePopup">&times;</span>
+                <span class="close" @onclick="ClosePopup2">&times;</span>
                 <h4 style="text-align: center;">評值歷史紀錄</h4>
+            </div>
+            <div>
+                <p>病人名字: @CurrentPatientNameAndNumber2.Split('-')[0].Trim() / 病例號: @CurrentPatientNameAndNumber2.Split('-')[1].Trim() </p>
             </div>
             <div style="margin-top: 10px;">
                 <input type="text" @bind="searchText" placeholder="搜尋日期" />
@@ -44,15 +47,17 @@
 
 
 @code {
-    [Parameter] public bool ShowPopup2 { get; set; }
-    [Parameter] public EventCallback OnClosePopup { get; set; }
+    [Parameter] public bool showPopup2 { get; set; }
+    [Parameter] public EventCallback OnClosePopup2 { get; set; }
+    [Parameter] public EventCallback<string> CurrentPatientInfo2 { get; set; }
+    [Parameter] public string CurrentPatientNameAndNumber2 { get; set; }
 
     [Inject] private NavigationManager NavigationManager { get; set; }
 
-    private void ClosePopup()
+    private void ClosePopup2()
     {
-        ShowPopup2 = false;
-        OnClosePopup.InvokeAsync();
+        showPopup2 = false;
+        OnClosePopup2.InvokeAsync();
     }
 
     private void SubmitForm()
