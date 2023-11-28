@@ -6,7 +6,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-4 login-box">
-                <h3 class="text-center">Login</h3>
+                <h3 class="text-center" style="color: #4c956a;">Login</h3>
                 <EditForm Model="@loginModel" OnValidSubmit="Login">
                     <DataAnnotationsValidator />
                     <ValidationSummary />
@@ -23,7 +23,7 @@
                     <br />
                     @if (loginError)
                     {
-                        <center><div class="error-message">帳號或密碼錯誤！</div></center>
+                        <center><div class="error-message">帳號或密碼輸入錯誤！</div></center>
                     }
                     <br />
                     <center><button class="btn btn-primary btn-lg btn-block" @onclick="Login">登入</button></center>

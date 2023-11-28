@@ -2,7 +2,8 @@
 @inject IJSRuntime JSRuntime
 @inject NavigationManager NavigationManager
 
-
+<h1 style="color: #FFFFFF; background-color: #4C956A; padding: 10px; text-align: center; display: block; width: 100%;">社區照護系統</h1>
+<br>
 <div class="education-page">
     <h1>衛教資訊</h1><br />
     <h3>高血壓:</h3>
@@ -21,6 +22,7 @@
     </ol>
 
     <button class="btn btn-primary btn-sm" @onclick="() => OpenBrochure(hypertensionBrochureLink)">衛教單張 - 高血壓</button><br><br>
+    <hr style="border: 1px solid #999393; margin: 20px 0;">
 
     <h3>糖尿病:</h3>
     <ol>
@@ -40,6 +42,7 @@
     </ol>
 
     <button class="btn btn-primary btn-sm" @onclick="() => OpenBrochure(diabetesBrochureLink)">衛教單張 - 糖尿病</button><br><br>
+    <hr style="border: 1px solid #999393; margin: 20px 0;">
 
     <h3>預防跌倒:</h3>
     <ol>
@@ -52,17 +55,17 @@
     </ol>
 
     <button class="btn btn-primary btn-sm" @onclick="() => OpenBrochure(fallPreventionBrochureLink)">衛教單張 - 預防跌倒</button><br><br>
+    <hr style="border: 1px solid #999393; margin: 20px 0;">
 
-    <div class="checkbox-container">
+    <div class="checkbox-container" style="display: flex; justify-content: center;">
         <input type="checkbox" @bind="isEducationCompleted" />
         <label>已完成此次衛教</label>
     </div>
-    <br>
-    <div style="margin-top: 20px;">
-        <button @onclick="NavigateToOtherPage3">回到首頁</button>
+
+    <div style="margin-top: 20px; display: flex; justify-content: center;">
+        <button @onclick="NavigateToOtherPage3" style="background-color: #226fdf; color: #ffffff; border: 1px solid black; border-radius: 5px; margin-top: 10px; ">回首頁</button>
     </div>
     <br><br>
-
 </div>
 
 @code {

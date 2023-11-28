@@ -1,10 +1,9 @@
-﻿@page "/newdata"
-
+﻿@page "/editdata"
 <div class="title-background">
     <h1 class="title-text">社區照護系統</h1>
 </div>
 <br />
-<h1 class="section-title">新增資料</h1>
+<h1 class="section-title">編輯資料</h1>
 <br />
 <EditForm Model="newPatient" OnValidSubmit="SaveData">
     <DataAnnotationsValidator />
@@ -139,14 +138,35 @@
             <td><div><InputText id="Remarks" @bind-Value="newPatient.Remarks" /></div></td>
         </tr>
     </table>
-    <div>
-        <button type="submit">儲存</button>
-    </div>
 
-    <br />
-    <br />
-
+    <table frame=void>
+    </table>
 </EditForm>
+<div style="text-align: center;">
+    <div>
+        <input type="checkbox" @onclick="Toggle" /> 結案
+    </div>
+    <br />
+    @if (showClosureReason)
+    {
+        <div>
+            <label for="ClosureDate">結案日期：</label>
+            <InputDate id="ClosureDate" @bind-Value="newPatient.ClosureDate" />
+        </div>
+        <br />
+        <div>
+            <label for="ClosureReason">請輸入結案原因：</label>
+            <InputText @bind-Value="newPatient.Closure" placeholder="請輸入結案原因：" />
+        </div>
+    }
+</div>
+<br />
+<div>
+    <button type="submit" @onclick="SaveData">儲存</button>
+</div>
+
+<br />
+<br />
 
 
 @code {
@@ -205,7 +225,6 @@
         showClosureReason = !showClosureReason;
     }
 }
-
 <style>
     .title-background {
         background-color: #4c956a;
@@ -231,10 +250,10 @@
         border-collapse: collapse;
     }
 
-    .table td {
-        border: 1px solid #9fa49f;
-        padding: 8px; /* 根據需要調整內邊距 */
-    }
+        .table td {
+            border: 1px solid #9fa49f;
+            padding: 8px; /* 根據需要調整內邊距 */
+        }
 
     table tr td:first-child {
         background-color: #d5dfd4;

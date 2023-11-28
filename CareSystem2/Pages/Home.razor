@@ -1,5 +1,10 @@
 ﻿@page "/home"
 
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-......................" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+
 <nav class="nav-bar">
     <h2>社區照護系統</h2>
     <button @onclick="NavigateToOtherPagehome">登出</button>
@@ -8,30 +13,35 @@
 
 <div class="square-box-container">
     <!-- 第一個方形框 -->
-    <div class="square-box">
-        <button @onclick="NavigateToOtherPage1">搜尋資料</button>
-    </div>
+    <button class="square-box" @onclick="NavigateToOtherPage1">
+        <i class="fa-solid fa-magnifying-glass" style="color: #385e31;"></i>
+        <p>搜尋資料</p>
+    </button>
+
 
     <!-- 第二個方形框 -->
-    <div class="square-box">
-        <button @onclick="NavigateToOtherPage2">新增資料</button>
-    </div>
+    <button class="square-box" @onclick="NavigateToOtherPage2">
+        <i class="fa-solid fa-plus" style="color: #31601f;"></i>
+        <p>新增資料</p>
+    </button>
 
     <!-- 第三個方形框 -->
-    <div class="square-box">
-        <button @onclick="NavigateToOtherPage3">衛教資訊</button>
-    </div>
+    <button class="square-box" @onclick="NavigateToOtherPage3">
+        <i class="fa-solid fa-globe" style="color: #31601f;"></i>
+        <p>衛教資訊</p>
+    </button>
 </div>
 
 
 <style>
     .nav-bar {
-        background-color: #555; /* 導覽列的背景顏色 */
+        background-color: #4c956a; /* 導覽列的背景顏色 */
         color: #fff; /* 文字顏色*/
         padding: 10px; /* 邊距 */
         display: flex;
         justify-content: space-between;
         align-items: center; /* 垂直對齊 */
+        margin-bottom: 40px;
     }
 
     .nav-link {
@@ -48,23 +58,30 @@
     .square-box {
         width: 230px;
         height: 230px;
-        background-color: #f0f0f0;
-        color: #555;
+        background-color: #becdba;
+        color: #636a62;
         text-align: center;
         display: flex;
         align-items: center; /* 垂直對齊*/
         justify-content: center;
-        margin: 10px;
+        margin-bottom: 100px;
+        margin-left: 30px;
+        position: relative;
     }
 
-    .add-button {
-        background-color: #555;
-        color: #fff;
-        padding: 10px 20px;
-        border: none;
-        cursor: pointer;
-        display: flex; /* 添加 display: flex; 让子元素水平和垂直居中 */
-    }
+        .square-box i {
+            margin-bottom: 55px; /* 調整圖標和文字之間的距離 */
+            margin-left: 10px;
+            position: absolute;
+            font-size: 30px;
+        }
+
+        .square-box p {
+            font-size: 24px;
+            margin-bottom: -50px; /* 調整圖標和文字之間的距離 */
+            margin-left: 10px;
+            position: absolute;
+        }
 </style>
 
 
