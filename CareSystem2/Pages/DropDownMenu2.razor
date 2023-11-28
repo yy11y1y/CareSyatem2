@@ -11,11 +11,11 @@
             </div>
             <div style="margin-top: 10px;">
                 <input type="text" @bind="searchText" placeholder="搜尋日期" />
-                <button @onclick="SearchRecords">搜尋</button>
+                <button class="search-button" @onclick="SearchRecords">搜尋</button>
             </div>
             <div style="margin-top: 10px;"></div>
             <form>
-                <button type="button" @onclick="SubmitForm">新增評值</button>
+                <button class="new-button" @onclick="SubmitForm">新增評值</button>
             </form>
 
             <div style="text-align: center; max-height: 300px; overflow-y: auto;">
@@ -34,8 +34,8 @@
                             <tr @onclick="() => NavigateToDetailsPage(i)" @onmouseover="() => HighlightRow(i)" @onmouseout="RemoveHighlight">
                                 <td>@i</td>
                                 <td>@DateTime.Now.AddDays(i).ToString("yyyy-MM-dd")</td>
-                                <td><button @onclick="() => EditRecord(i)">修改</button></td>
-                                <td><button @onclick="() => DeleteRecord(i)">刪除</button></td>
+                                <td><button class="edit-button" @onclick="() => EditRecord(i)">修改</button></td>
+                                <td><button class="delete-button" @onclick="() => DeleteRecord(i)">刪除</button></td>
                             </tr>
                         }
                     </tbody>
@@ -188,5 +188,29 @@
 
     tr.highlighted-row {
         background-color: #ddd; /* 深灰色 */
+    }
+
+    .search-button {
+        background-color: #246ff1;
+        color: white;
+        border-radius: 5px;
+    }
+
+    .new-button {
+        background-color: #4f9855;
+        color: white;
+        border-radius: 5px;
+    }
+
+    .edit-button {
+        background-color: #4f9855;
+        color: white;
+        border-radius: 5px;
+    }
+
+    .delete-button {
+        background-color: #e44e53;
+        color: white;
+        border-radius: 5px;
     }
 </style>

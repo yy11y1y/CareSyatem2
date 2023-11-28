@@ -1,60 +1,80 @@
 ﻿@page "/newdata"
 
-<h1>新增資料</h1>
-
+<div class="title-background">
+    <h1 class="title-text">社區照護系統</h1>
+</div>
+<br />
+<h1 class="section-title">新增資料</h1>
+<br />
 <EditForm Model="newPatient" OnValidSubmit="SaveData">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
     <table class="table">
         <tr>
-            <td style="width: 15%;"><label for="CaseNumber">病歷號：</label></td>
-            <td><InputText id="CaseNumber" @bind-Value="newPatient.CaseNumber" /></td>
-        </tr>
-        <tr>
-            <td style="width: 15%;"><label for="Name">姓名：</label></td>
-            <td><InputText id="Name" @bind-Value="newPatient.Name" /></td>
-        </tr>
-        <tr>
-            <td style="width: 15%;"><label for="Gender">性別：</label></td>
+            <td><label for="CaseNumber">病歷號：</label></td>
             <td>
-                <InputSelect id="Gender" @bind-Value="newPatient.Gender">
-                    <option value="Male">生理男</option>
-                    <option value="Female">生理女</option>
-                    <option value="Other">其他</option>
-                </InputSelect>
+                <div>
+                    <InputText id="CaseNumber" @bind-Value="newPatient.CaseNumber" placeholder="Ex：1001" />
+                </div>
             </td>
         </tr>
         <tr>
-            <td style="width: 15%;"><label for="BirthDate">出生日期：</label></td>
-            <td><InputDate id="BirthDate" @bind-Value="newPatient.BirthDate" /></td>
-        </tr>
-        <tr>
-            <td style="width: 15%;"><label for="Age">年齡：</label></td>
-            <td>@CalculateAge()</td>
-        </tr>
-        <tr>
-            <td style="width: 15%;"><label for="Id">身分證：</label></td>
-            <td><InputText id="Id" @bind-Value="newPatient.Id" /></td>
-        </tr>
-        <tr>
-            <td style="width: 15%;"><label for="Phone">手機號碼：</label></td>
-            <td><InputText id="Phone" @bind-Value="newPatient.Phone" /></td>
-        </tr>
-        <tr>
-            <td style="width: 15%;"><label for="Language">語言：</label></td>
+            <td><label for="Name">姓名：</label></td>
             <td>
-                <InputSelect id="Language" @bind-Value="newPatient.Language">
-                    <option value="國語">國語</option>
-                    <option value="台語">台語</option>
-                    <option value="客語">客語</option>
-                    <option value="英語">英語</option>
-                    <option value="其他">其他</option>
-                </InputSelect>
+                <div>
+                    <InputText id="Name" @bind-Value="newPatient.Name" placeholder="輸入姓名" />
+                </div>
             </td>
         </tr>
         <tr>
-            <td style="width: 15%;"><label for="Address">地址：</label></td>
+            <td><label for="Gender">性別：</label></td>
+            <td>
+                <div>
+                    <InputSelect id="Gender" @bind-Value="newPatient.Gender">
+                        <option value="Male">生理男</option>
+                        <option value="Female">生理女</option>
+                        <option value="Other">其他</option>
+                    </InputSelect>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="BirthDate">出生日期：</label></td>
+            <td>
+                <div>
+                    <InputDate id="BirthDate" @bind-Value="newPatient.BirthDate" />
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="Age">年齡：</label></td>
+            <td><div>@CalculateAge()</div></td>
+        </tr>
+        <tr>
+            <td><label for="Id">身分證：</label></td>
+            <td><div><InputText id="Id" @bind-Value="newPatient.Id" placeholder="Ex：A123456789" /></div></td>
+        </tr>
+        <tr>
+            <td><label for="Phone">手機號碼：</label></td>
+            <td><div><InputText id="Phone" @bind-Value="newPatient.Phone" placeholder="Ex：0912345678" /></div></td>
+        </tr>
+        <tr>
+            <td><label for="Language">語言：</label></td>
+            <td>
+                <div>
+                    <InputSelect id="Language" @bind-Value="newPatient.Language">
+                        <option value="國語">國語</option>
+                        <option value="台語">台語</option>
+                        <option value="客語">客語</option>
+                        <option value="英語">英語</option>
+                        <option value="其他">其他</option>
+                    </InputSelect>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td><label for="Address">地址：</label></td>
             <td>
                 <div class="dropdown">
                     <select name="county" id="county_box" @bind="newPatient.County">
@@ -95,34 +115,36 @@
             </td>
         </tr>
         <tr>
-            <td style="width: 15%;"><label for="MedicalHistory">病史：</label></td>
-            <td><InputTextArea id="MedicalHistory" @bind-Value="newPatient.MedicalHistory" /></td>
+            <td><label for="MedicalHistory">病史：</label></td>
+            <td><div><InputText id="MedicalHistory" @bind-Value="newPatient.MedicalHistory" placeholder="輸入過往病史" /></div></td>
         </tr>
         <tr>
-            <td style="width: 15%;"><label for="EmergencyContact">緊急聯絡人：</label></td>
-            <td><InputText id="EmergencyContact" @bind-Value="newPatient.EmergencyContact" /></td>
+            <td><label for="EmergencyContact">緊急聯絡人：</label></td>
+            <td><div><InputText id="EmergencyContact" @bind-Value="newPatient.EmergencyContact" placeholder="輸入緊急聯絡人姓名" /></div></td>
         </tr>
         <tr>
-            <td style="width: 15%;"><label for="Relationship">關係：</label></td>
-            <td><InputText id="Relationship" @bind-Value="newPatient.Relationship" /></td>
+            <td><label for="Relationship">關係：</label></td>
+            <td><div><InputText id="Relationship" @bind-Value="newPatient.Relationship" placeholder="輸入與緊急聯絡人之關係" /></div></td>
         </tr>
         <tr>
-            <td style="width: 15%;"><label for="EmergencyPhone">緊急聯絡人電話：</label></td>
-            <td><InputText id="EmergencyPhone" @bind-Value="newPatient.EmergencyPhone" /></td>
+            <td><label for="EmergencyPhone">緊急聯絡人電話：</label></td>
+            <td><div><InputText id="EmergencyPhone" @bind-Value="newPatient.EmergencyPhone" placeholder="Ex：0912345678" /></div></td>
         </tr>
         <tr>
-            <td style="width: 15%;"><label for="FamilyMember">家人：</label></td>
-            <td><InputText id="FamilyMember" @bind-Value="newPatient.FamilyMember" /></td>
+            <td><label for="FamilyMember">家人：</label></td>
+            <td><div><InputText id="FamilyMember" @bind-Value="newPatient.FamilyMember" placeholder="輸入父母、子女或伴侶姓名關係" /></div></td>
         </tr>
         <tr>
-            <td style="width: 15%;"><label for="Remarks">備註：</label></td>
-            <td><InputText id="Remarks" @bind-Value="newPatient.Remarks" /></td>
+            <td><label for="Remarks">備註：</label></td>
+            <td><div><InputText id="Remarks" @bind-Value="newPatient.Remarks" /></div></td>
         </tr>
     </table>
-    <div style="text-align: center;">
+    <div>
         <button type="submit">儲存</button>
     </div>
 
+    <br />
+    <br />
 
 </EditForm>
 
@@ -183,3 +205,49 @@
         showClosureReason = !showClosureReason;
     }
 }
+
+<style>
+    .title-background {
+        background-color: #4c956a;
+        text-align: center;
+        padding: 30px; /* 調整上下 padding 來增加標題的高度 */
+        margin-bottom: 10px;
+        margin-top: 0;
+    }
+
+    .title-text {
+        color: white;
+        font-weight: bold;
+        font-size: 3em; /* 調整標題字體大小 */
+        padding: 10px; /* 調整內側 padding 來增加框框的大小 */
+    }
+
+    .section-title {
+        font-weight: bold;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .table td {
+        border: 1px solid #9fa49f;
+        padding: 8px; /* 根據需要調整內邊距 */
+    }
+
+    table tr td:first-child {
+        background-color: #d5dfd4;
+        color: #000000;
+        font-weight: bold;
+    }
+
+    button[type="submit"] {
+        background-color: #2073ec;
+        color: white;
+        border-radius: 10px;
+        padding: 8px 20px;
+        display: block;
+        margin: 0 auto; /* 將按鈕置中 */
+    }
+</style>

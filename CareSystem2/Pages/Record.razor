@@ -1,36 +1,42 @@
 ﻿@page "/record"
-
-<h1>檢查紀錄</h1>
+<div class="title-background">
+    <h1 class="title-text">社區照護系統</h1>
+</div>
+<br />
+<h1 class="section-title">檢查紀錄</h1>
 紀錄人員：
+<br />
+<br />
 
-<table>
+
+<table class="table">
     <tr>
-        <td style="width: 15%;"><label>姓名：</label></td>
-        <td style="width: 85%;"><input type="text" @bind="name" style="width: 70px;" /></td>
+        <td><label>姓名：</label></td>
+        <td><input type="text" @bind="name" style="width: 70px;" /></td>
     </tr>
     <tr>
-        <td style="width: 15%;"><label>病例號：</label></td>
-        <td style="width: 85%;"><input type="text" @bind="patientID" style="width: 70px;" /></td>
+        <td><label>病例號：</label></td>
+        <td><input type="text" @bind="patientID" style="width: 70px;" /></td>
     </tr>
     <tr>
-        <td style="width: 15%;"><label>日期：</label></td>
-        <td style="width: 85%;"><input type="date" @bind="selectedDate" @onfocus="ClearDate" min="2023-10-01" /></td>
+        <td><label>日期：</label></td>
+        <td><input type="date" @bind="selectedDate" @onfocus="ClearDate" min="2023-10-01" /></td>
     </tr>
     <tr>
-        <td style="width: 15%;"><label>體重(kg):</label></td>
-        <td style="width: 85%;"><input type="text" @bind="weight" style="width: 70px;" /> kg</td>
+        <td><label>體重(kg):</label></td>
+        <td><input type="text" @bind="weight" style="width: 70px;" /> kg</td>
     </tr>
     <tr>
-        <td style="width: 15%;"><label>身高(cm):</label></td>
-        <td style="width: 85%;"><input type="text" @bind="height" style="width: 70px;" /> cm</td>
+        <td><label>身高(cm):</label></td>
+        <td><input type="text" @bind="height" style="width: 70px;" /> cm</td>
     </tr>
     <tr>
-        <td style="width: 15%;"><label>BMI：</label></td>
-        <td style="width: 85%;"><span>@CalculateBMI()</span></td>
+        <td><label>BMI：</label></td>
+        <td><span>@CalculateBMI()</span></td>
     </tr>
     <tr>
-        <td style="width: 15%;"><label>血壓 (mmHg)：</label></td>
-        <td style="width: 85%;">
+        <td><label>血壓 (mmHg)：</label></td>
+        <td>
             <input type="text" @bind="bloodPressure1" pattern="\d{3}/\d{3}" placeholder="_____" oninput="CheckBloodPressure1" style="width: 45px; color:@GetColorForBloodPressure();" /> /
             <input type="text" @bind="bloodPressure2" pattern="\d{3}/\d{3}" placeholder="_____" oninput="CheckBloodPressure2" style="width: 45px; color:@GetColorForBloodPressure();" /> mmHg
             <span style="margin-left: 10px; font-size: 12px; color: gray;">@currentTime.ToString("HH:mm")</span>
@@ -39,37 +45,38 @@
 
 
     <tr>
-        <td style="width: 15%;"><label>脈搏：</label></td>
-        <td style="width: 85%;"><input type="text" @bind="pulse" oninput="CheckPluse" style="width: 70px; color:@GetColorForPulse();" /> 次/分</td>
+        <td><label>脈搏：</label></td>
+        <td><input type="text" @bind="pulse" oninput="CheckPluse" style="width: 70px; color:@GetColorForPulse();" /> 次/分</td>
     </tr>
     <tr>
-        <td style="width: 15%;"><label>體溫：</label></td>
-        <td style="width: 85%;"><input type="text" @bind="temperature" oninput="CheckTemperature" style="width: 70px; color:@GetColorForTemperature();" /> °C</td>
+        <td><label>體溫：</label></td>
+        <td><input type="text" @bind="temperature" oninput="CheckTemperature" style="width: 70px; color:@GetColorForTemperature();" /> °C</td>
     </tr>
     <tr>
-        <td style="width: 15%;">
+        <td>
             <label>血糖：</label>
             <select @bind="bloodsugarTiming">
                 <option value="fasting">空腹</option>
                 <option value="postMeal">飯後</option>
             </select>
         </td>
-        <td style="width: 85%;">
+        <td>
             <input type="text" @bind="bloodsugar" oninput="Checkbloodsugar" style="width: 70px; @GetColorForBloodSugar()" /> mg/dL
         </td>
     </tr>
     <tr>
-        <td style="width: 15%;"><label>血氧：</label></td>
-        <td style="width: 85%;"><input type="text" @bind="bloodoxygen" style="width: 70px;  " /> %</td>
+        <td><label>血氧：</label></td>
+        <td><input type="text" @bind="bloodoxygen" style="width: 70px;  " /> %</td>
     </tr>
 </table>
 <br />
-<center>
-    <button @onclick="GoToOtherPage">上一步</button>
-    <button @onclick="GoToHomePage">Save</button>
-</center>
+
+<button @onclick="GoToHomePage" class="button">Save</button>
 
 
+<br />
+<br />
+<br />
 
 
 @code {
@@ -248,16 +255,47 @@
 }
 
 <style>
-    table {
-        border-collapse: collapse;
-        width: 100%;
-        color: black;
+    .title-background {
+        background-color: #4c956a;
+        text-align: center;
+        padding: 30px; /* 調整上下 padding 來增加標題的高度 */
+        margin-bottom: 10px;
+        margin-top: 0;
     }
 
-    th, td {
-        border: 1px solid #dddddd;
-        text-align: left;
-        padding: 8px;
+    .title-text {
+        color: white;
+        font-weight: bold;
+        font-size: 3em; /* 調整標題字體大小 */
+        padding: 10px; /* 調整內側 padding 來增加框框的大小 */
+    }
+
+    .section-title {
+        font-weight: bold;
+    }
+
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .table td {
+        border: 1px solid #9fa49f;
+        padding: 8px; /* 根據需要調整內邊距 */
+    }
+
+    table tr td:first-child {
+        background-color: #d5dfd4;
+        color: #000000;
+        font-weight: bold;
+    }
+    .button {
+        background-color: #2073ec;
+        color: white;
+        border-radius: 10px;
+        padding: 8px 20px;
+        display: block;
+        margin: 0 auto; /* 將按鈕置中 */
     }
 </style>
 
